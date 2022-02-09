@@ -10,7 +10,6 @@ class Vehicle(models.Model):
     make = models.CharField(max_length=50)
     model = models.CharField(max_length=100)
     trim = models.CharField(max_length=100, blank=True, null=True)
-    #!
     ENGINE_CHOICES = (
         ('4 Cylinder', '4 Cylinder'),
         ('6 Cylinder','6 Cylinder'),
@@ -19,23 +18,20 @@ class Vehicle(models.Model):
         ('12 Cylinder','12 Cylinder'),
         ('Other','Other'),
     )
-    engine_size = models.CharField(max_length=50, choices=ENGINE_CHOICES, blank=True, null=True)
-    #!
+    engine_size = models.CharField(choices=ENGINE_CHOICES, max_length=50, blank=True, null=True)
     TRANS_CHOICES = (
         ('Automatic', 'Automatic'),
         ('Manual', 'Manual'),
         ('CVT', 'CVT'),
     )
-    transmission_type = models.CharField(max_length=50, null=True, blank=True,  choices=TRANS_CHOICES)
-    #!
+    transmission_type = models.CharField(choices=TRANS_CHOICES, max_length=50, blank=True, null=True)
     DRIVE_CHOICES = (
         ('AWD', 'AWD'),
         ('4WD','4WD'),
         ('FWD','FWD'),
         ('RWD','RWD'),
     )
-    drive_type = models.CharField(max_length=50, choices=DRIVE_CHOICES, blank=True, null=True)
-    #!
+    drive_type = models.CharField(choices=DRIVE_CHOICES, max_length=50, blank=True, null=True)
     FUEL_CHOICES = (
         ('Petrol', 'Petrol'),
         ('Diesel', 'Diesel'),
