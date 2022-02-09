@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'corsheaders',
     'vehicles.apps.VehiclesConfig',
+    'service_logs.apps.ServiceLogsConfig',
+    'shops.apps.ShopsConfig',
 ]
 
 MIDDLEWARE = [
