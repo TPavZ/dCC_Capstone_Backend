@@ -15,7 +15,7 @@ User=get_user_model()
 class VehicleList(APIView):
 
     permission_classes = [IsAuthenticated]
-
+    
     def get(self, request):
         vehicles = Vehicle.objects.all()
         serializer = VehicleSerializer(vehicles, many=True)
