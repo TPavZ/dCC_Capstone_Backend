@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'vehicles.apps.VehiclesConfig',
     'service_logs.apps.ServiceLogsConfig',
     'shops.apps.ShopsConfig',
+    'comments.apps.CommentsConfig',
 ]
 
 MIDDLEWARE = [
