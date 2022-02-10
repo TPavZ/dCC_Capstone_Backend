@@ -14,7 +14,7 @@ User=get_user_model()
 # Create your views here.
 class VehicleList(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny] #! Change later
     
     def get(self, request):
         vehicles = Vehicle.objects.all()
@@ -29,6 +29,8 @@ class VehicleList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class VehicleDetails(APIView):
+
+    permission_classes = [AllowAny] #! Change later
 
     def get_object(self, pk):
         try:

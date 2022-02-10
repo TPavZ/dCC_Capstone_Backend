@@ -1,4 +1,5 @@
  #! Shop Views
+from django.http.response import Http404
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
@@ -13,7 +14,7 @@ User=get_user_model()
 
 class ShopList(APIView):
 
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny] #! Change later
     
     def get(self, request):
         shops = Shop.objects.all()
@@ -26,3 +27,31 @@ class ShopList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ShopDetails(APIView):
+
+    permission_classes = [AllowAny] #! Change later
+
+    def get_object(self, pk):
+        try:
+            return Shop.objects.get(pk=pk)
+        except Shop.DoesNotExist:
+            raise Http404            
+
+    def get(self, request, pk):
+        shop = self.get_object(pk)
+        serializer = ShopSerializer(shop)
+        return Response(serializer.data)
+        
+    def put(self, request, pk):
+        shop = self.get_object(pk)
+        serializer = ShopSerializer(shop, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        shop = self.get_object(pk)
+        shop.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
