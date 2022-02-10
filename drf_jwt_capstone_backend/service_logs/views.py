@@ -18,8 +18,8 @@ User=get_user_model()
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def get_all_services(request, video_id):
-    services = Service.objects.filter(video_id=video_id)
+def get_all_services(request):
+    services = Service.objects.all()
     serializer = ServiceSerializer(services, many=True)
     return Response(serializer.data)
 

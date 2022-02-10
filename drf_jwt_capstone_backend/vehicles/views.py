@@ -18,8 +18,8 @@ User=get_user_model()
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def get_all_vehicles(request, video_id):
-    vehicles = Vehicle.objects.filter(video_id=video_id)
+def get_all_vehicles(request):
+    vehicles = Vehicle.objects.all()
     serializer = VehicleSerializer(vehicles, many=True)
     return Response(serializer.data)
 

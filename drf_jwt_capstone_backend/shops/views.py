@@ -16,8 +16,8 @@ from .serializers import UserSerializer
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def get_all_shops(request, video_id):
-    shops = Shop.objects.filter(video_id=video_id)
+def get_all_shops(request):
+    shops = Shop.objects.all()
     serializer = ShopSerializer(shops, many=True)
     return Response(serializer.data)
 
