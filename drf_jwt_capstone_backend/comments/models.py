@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 # Create your models here.
 
+
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     service_id = models.CharField(max_length=100, null=False)
@@ -10,6 +11,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'comment' + str(self.user) + str(self.service_id)
+
 
 class Reply(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)

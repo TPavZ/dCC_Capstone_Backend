@@ -1,5 +1,5 @@
- #! Comment Views
- #TODO for production change authetications back.
+    #! Comment Views
+    # TODO for production change authetications back.
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,6 +14,7 @@ from .serializers import UserSerializer
 
 # Create your views here.
 
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_all_comments(request, video_id):
@@ -23,7 +24,7 @@ def get_all_comments(request, video_id):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def get_user(request, user_id):
     user = User.objects.get(id=user_id)
     serializer = UserSerializer(user, many=False)
@@ -31,7 +32,7 @@ def get_user(request, user_id):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def user_comments(request):
     if request.method == 'POST':
         serializer = CommentSerializer(data=request.data)
@@ -42,7 +43,7 @@ def user_comments(request):
 
 
 @api_view(['PUT'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def update_comment(request, comment_id):
     comment = Comment.objects.get(id=comment_id)
     serializer = CommentSerializer(comment, data=request.data)
@@ -53,7 +54,7 @@ def update_comment(request, comment_id):
 
 
 @api_view(['DELETE'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def delete_comment(request, comment_id):
     comment = Comment.objects.get(id=comment_id)
     if request.user.id == comment.user.id:
@@ -65,7 +66,7 @@ def delete_comment(request, comment_id):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def post_reply(request, comment_id):
     serializer = ReplySerializer(data=request.data)
     if serializer.is_valid():
@@ -75,14 +76,15 @@ def post_reply(request, comment_id):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def user_replies(request, comment_id):
     replies = Reply.objects.filter(comment_id=comment_id)
     serializer = ReplySerializer(replies, many=True)
     return Response(serializer.data)
 
+
 @api_view(['PUT'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def update_reply(request, reply_id):
 
     reply = Reply.objects.get(id=reply_id)
@@ -97,7 +99,7 @@ def update_reply(request, reply_id):
 
 
 @api_view(['DELETE'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def delete_reply(request, reply_id):
     reply = Reply.objects.get(id=reply_id)
     if request.user.id == reply.user.id:

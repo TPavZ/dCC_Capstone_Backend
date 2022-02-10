@@ -1,5 +1,5 @@
- #! Shop Views
- #TODO for production change authetications back.
+    #! Shop Views
+    # TODO for production change authetications back.
 #from django.http.response import Http404
 #from django.shortcuts import render
 from rest_framework import status
@@ -14,6 +14,7 @@ from .serializers import UserSerializer
 
 # Create your views here.
 
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_all_shops(request):
@@ -23,7 +24,7 @@ def get_all_shops(request):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def get_user(request, user_id):
     user = User.objects.get(id=user_id)
     serializer = UserSerializer(user, many=False)
@@ -31,7 +32,7 @@ def get_user(request, user_id):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def user_shops(request):
     if request.method == 'POST':
         serializer = ShopSerializer(data=request.data)
@@ -42,7 +43,7 @@ def user_shops(request):
 
 
 @api_view(['PUT'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def update_shop(request, shop_id):
     shop = Shop.objects.get(id=shop_id)
     serializer = ShopSerializer(shop, data=request.data)
@@ -53,7 +54,7 @@ def update_shop(request, shop_id):
 
 
 @api_view(['DELETE'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def delete_shop(request, shop_id):
     shop = Shop.objects.get(id=shop_id)
     if request.user.id == shop.user.id:
@@ -62,6 +63,7 @@ def delete_shop(request, shop_id):
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
     else:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+
 
 """ class ShopList(APIView):
 

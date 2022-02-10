@@ -1,5 +1,5 @@
- #! Vehicle Views
- #TODO for production change authetications back.
+    #! Vehicle Views
+    # TODO for production change authetications back.
 #from django.http.response import Http404
 #from django.shortcuts import render
 from rest_framework import status
@@ -11,10 +11,11 @@ from .models import Vehicle
 from .serializers import VehicleSerializer
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
-from django.contrib.auth import get_user_model   
-User=get_user_model()
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # Create your views here.
+
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -25,7 +26,7 @@ def get_all_vehicles(request):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def get_user(request, user_id):
     user = User.objects.get(id=user_id)
     serializer = UserSerializer(user, many=False)
@@ -33,7 +34,7 @@ def get_user(request, user_id):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def user_vehicles(request):
     if request.method == 'POST':
         serializer = VehicleSerializer(data=request.data)
@@ -44,7 +45,7 @@ def user_vehicles(request):
 
 
 @api_view(['PUT'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def update_vehicle(request, vehicle_id):
     vehicle = Vehicle.objects.get(id=vehicle_id)
     serializer = VehicleSerializer(vehicle, data=request.data)
@@ -55,7 +56,7 @@ def update_vehicle(request, vehicle_id):
 
 
 @api_view(['DELETE'])
-@permission_classes([AllowAny]) #!IsAuthenticated
+@permission_classes([AllowAny])  # !IsAuthenticated
 def delete_vehicle(request, vehicle_id):
     vehicle = Vehicle.objects.get(id=vehicle_id)
     if request.user.id == vehicle.user.id:
@@ -64,6 +65,7 @@ def delete_vehicle(request, vehicle_id):
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
     else:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+
 
 """ class VehicleList(APIView):
 

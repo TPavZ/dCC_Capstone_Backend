@@ -1,4 +1,4 @@
- #! Vehicle URL
+    #! Vehicle URL
 from django.urls import path
 from . import views
 

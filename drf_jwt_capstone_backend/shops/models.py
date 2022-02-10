@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+
 class Shop(models.Model):
     name = models.CharField(max_length=200)
     phone_number = models.CharField(max_length=12)
@@ -61,6 +63,7 @@ class Shop(models.Model):
     )
     state = models.CharField(choices=STATE_CHOICES, max_length=20, null=False)
     zipcode = models.IntegerField()
-    contact_first_name = models.CharField(max_length=150, blank=True, null=True)
+    contact_first_name = models.CharField(
+        max_length=150, blank=True, null=True)
     contact_last_name = models.CharField(max_length=150, blank=True, null=True)
     details = models.TextField(blank=True, null=True)
