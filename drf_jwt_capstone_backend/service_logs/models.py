@@ -5,17 +5,13 @@ User = get_user_model()
 
 
 class Service(models.Model):
-    user = models.ForeignKey(
-        User, null=True, blank=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     # TODO Somehow be able to connect to the users vehicle.
-    vehicle = models.ForeignKey(
-        'vehicles.Vehicle', null=True, blank=True, on_delete=models.SET_NULL)
+    vehicle = models.ForeignKey('vehicles.Vehicle', null=True, blank=True, on_delete=models.SET_NULL)
     # TODO Somehow be able to connect to the shop work was done at.
-    shop = models.ForeignKey('shops.Shop', null=True,
-                             blank=True, on_delete=models.SET_NULL)
+    shop = models.ForeignKey('shops.Shop', null=True, blank=True, on_delete=models.SET_NULL)
     service_date = models.DateField(auto_now=True)
-    service_grand_total = models.DecimalField(
-        max_digits=7, default=0.0, decimal_places=2)
+    service_grand_total = models.DecimalField(max_digits=7, default=0.0, decimal_places=2)
     battery_service = models.BooleanField(null=True, blank=True)
     brakefluid_service = models.BooleanField(null=True, blank=True)
     brakefront_service = models.BooleanField(null=True, blank=True)
@@ -36,10 +32,11 @@ class Service(models.Model):
     sparkplug_service = models.BooleanField(null=True, blank=True)
     steering_repair = models.BooleanField(null=True, blank=True)
     suspension_repair = models.BooleanField(null=True, blank=True)
+    tire_repair = models.BooleanField(null=True, blank=True)
     tire_replacement = models.BooleanField(null=True, blank=True)
     tire_rotation = models.BooleanField(null=True, blank=True)
     transfercase_service = models.BooleanField(null=True, blank=True)
     transmission_service = models.BooleanField(null=True, blank=True)
     wiperblade_replacement = models.BooleanField(null=True, blank=True)
-    other_services = models.BooleanField(null=True, blank=True)
+    other_services = models.TextField(blank=True, null=True)
     service_details = models.TextField(blank=True, null=True)
