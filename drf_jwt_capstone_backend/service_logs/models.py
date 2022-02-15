@@ -8,9 +8,10 @@ class Service(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     # TODO Somehow be able to connect to the users vehicle.
     vehicle = models.ForeignKey('vehicles.Vehicle', null=True, blank=True, on_delete=models.SET_NULL)
+    current_mileage = models.IntegerField()
     # TODO Somehow be able to connect to the shop work was done at.
     shop = models.ForeignKey('shops.Shop', null=True, blank=True, on_delete=models.SET_NULL)
-    service_date = models.DateField(auto_now=True)
+    service_date = models.DateField()
     service_grand_total = models.DecimalField(max_digits=7, default=0.0, decimal_places=2)
     battery_service = models.BooleanField(null=True, blank=True)
     brakefluid_service = models.BooleanField(null=True, blank=True)
@@ -25,7 +26,6 @@ class Service(models.Model):
     enginefilter_replacement = models.BooleanField(null=True, blank=True)
     exahust_service = models.BooleanField(null=True, blank=True)
     fuelfilter_replacement = models.BooleanField(null=True, blank=True)
-    major_repairs = models.BooleanField(null=True, blank=True)
     mechanical_investigation = models.BooleanField(null=True, blank=True)
     oil_change = models.BooleanField(null=True, blank=True)
     powersteering_service = models.BooleanField(null=True, blank=True)
@@ -38,5 +38,6 @@ class Service(models.Model):
     transfercase_service = models.BooleanField(null=True, blank=True)
     transmission_service = models.BooleanField(null=True, blank=True)
     wiperblade_replacement = models.BooleanField(null=True, blank=True)
+    major_repairs = models.TextField(null=True, blank=True)
     other_services = models.TextField(blank=True, null=True)
     service_details = models.TextField(blank=True, null=True)
