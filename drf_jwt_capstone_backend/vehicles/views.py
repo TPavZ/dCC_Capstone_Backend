@@ -26,7 +26,7 @@ def get_all_vehicles(request):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny])  # !IsAuthenticated
+@permission_classes([IsAuthenticated])  # !IsAuthenticated
 def get_user(request, user_id):
     user = User.objects.get(id=user_id)
     serializer = UserSerializer(user, many=False)
@@ -34,7 +34,7 @@ def get_user(request, user_id):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])  # !IsAuthenticated
+@permission_classes([IsAuthenticated])  # !IsAuthenticated
 def user_vehicles(request):
     if request.method == 'POST':
         serializer = VehicleSerializer(data=request.data)
@@ -65,48 +65,3 @@ def delete_vehicle(request, vehicle_id):
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
     else:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-
-""" class VehicleList(APIView):
-
-    permission_classes = [AllowAny] #! Change later
-    
-    def get(self, request):
-        vehicles = Vehicle.objects.all()
-        serializer = VehicleSerializer(vehicles, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = VehicleSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class VehicleDetails(APIView):
-
-    permission_classes = [AllowAny] #! Change later
-
-    def get_object(self, pk):
-        try:
-            return Vehicle.objects.get(pk=pk)
-        except Vehicle.DoesNotExist:
-            raise Http404            
-
-    def get(self, request, pk):
-        vehicles = self.get_object(pk)
-        serializer = VehicleSerializer(vehicles)
-        return Response(serializer.data)
-        
-    def put(self, request, pk):
-        vehicles = self.get_object(pk)
-        serializer = VehicleSerializer(vehicles, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        vehicles = self.get_object(pk)
-        vehicles.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT) """
