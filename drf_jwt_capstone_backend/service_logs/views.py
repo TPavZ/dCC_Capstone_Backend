@@ -33,7 +33,7 @@ def get_user(request, user_id):
     return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 @permission_classes([AllowAny])  # !IsAuthenticated
 def user_services(request):
     if request.method == 'POST':
@@ -42,6 +42,10 @@ def user_services(request):
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'GET':
+        Services = Service.objects.filter(user_id = request.user.id)
+        serializer = ServiceSerializer(Services, many=True)
+        return Response(serializer.data)
 
 
 @api_view(['PUT'])
