@@ -34,7 +34,7 @@ def get_all_services_pervehicle(request, vehicle_id):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny])  # !IsAuthenticated
+@permission_classes([IsAuthenticated])  
 def get_user(request, user_id):
     user = User.objects.get(id=user_id)
     serializer = UserSerializer(user, many=False)
@@ -42,7 +42,7 @@ def get_user(request, user_id):
 
 
 @api_view(['POST', 'GET'])
-@permission_classes([AllowAny])  # !IsAuthenticated
+@permission_classes([IsAuthenticated])  
 def user_services(request):
     if request.method == 'POST':
         serializer = CreateServiceSerializer(data=request.data)
