@@ -27,7 +27,7 @@ def get_all_vehicles(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])  # !IsAuthenticated
+@permission_classes([IsAuthenticated]) 
 def get_user(request, user_id):
     user = User.objects.get(id=user_id)
     serializer = UserSerializer(user, many=False)
