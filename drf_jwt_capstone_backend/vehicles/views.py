@@ -50,7 +50,7 @@ def user_vehicles(request, user_id):
 
 
 @api_view(['PUT'])
-@permission_classes([AllowAny])  # !IsAuthenticated
+@permission_classes([IsAuthenticated])
 def update_vehicle(request, vehicle_id):
     vehicle = Vehicle.objects.get(id=vehicle_id)
     serializer = VehicleSerializer(vehicle, data=request.data)
@@ -61,7 +61,7 @@ def update_vehicle(request, vehicle_id):
 
 
 @api_view(['DELETE'])
-@permission_classes([AllowAny])  # !IsAuthenticated
+@permission_classes([IsAuthenticated])
 def delete_vehicle(request, vehicle_id):
     vehicle = Vehicle.objects.get(id=vehicle_id)
     if request.user.id == vehicle.user.id:

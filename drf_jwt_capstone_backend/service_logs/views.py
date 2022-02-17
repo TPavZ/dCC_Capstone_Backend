@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from .models import Service
 from .serializers import ServiceSerializer
+from .serializers import CreateServiceSerializer
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
 from django.contrib.auth import get_user_model
@@ -37,7 +38,7 @@ def get_user(request, user_id):
 @permission_classes([AllowAny])  # !IsAuthenticated
 def user_services(request):
     if request.method == 'POST':
-        serializer = ServiceSerializer(data=request.data)
+        serializer = CreateServiceSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
