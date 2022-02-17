@@ -25,6 +25,13 @@ def get_all_services(request):
     serializer = ServiceSerializer(services, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_services_pervehicle(request, vehicle_id):
+    services = Service.objects.filter(vehicle_id = vehicle_id)
+    serializer = ServiceSerializer(services, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 @permission_classes([AllowAny])  # !IsAuthenticated
