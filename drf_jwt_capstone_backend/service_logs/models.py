@@ -9,9 +9,65 @@ class Service(models.Model):
     # TODO Somehow be able to connect to the users vehicle.
     vehicle = models.ForeignKey('vehicles.Vehicle', null=True, blank=True, on_delete=models.SET_NULL)
     current_mileage = models.IntegerField()
-    # TODO Somehow be able to connect to the shop work was done at.
-    shop = models.ForeignKey('shops.Shop', null=True, blank=True, on_delete=models.SET_NULL)
     service_date = models.DateField(auto_now=False)
+    # TODO Somehow be able to connect to the shop work was done at.
+    shop_name = models.CharField(max_length=200, null=False)
+    shop_street = models.CharField(max_length=100, null=False)
+    shop_city = models.CharField(max_length=100, null=False)
+    STATE_CHOICES = (
+        ('Alabama', 'AL'),
+        ('Alaska', 'AK'),
+        ('Arizona', 'AZ'),
+        ('Arkansas', 'AR'),
+        ('California', 'CA'),
+        ('Colorado', 'CO'),
+        ('Connecticut', 'CT'),
+        ('Delaware', 'DE'),
+        ('Florida', 'FL'),
+        ('Georgia', 'GA'),
+        ('Hawaii', 'HI'),
+        ('Idaho', 'ID'),
+        ('Illinois', 'IL'),
+        ('Indiana', 'IN'),
+        ('Iowa', 'IA'),
+        ('Kansas', 'KS'),
+        ('Kentucky', 'KY'),
+        ('Louisiana', 'LA'),
+        ('Maine', 'ME'),
+        ('Maryland', 'MD'),
+        ('Massachusetts', 'MA'),
+        ('Michigan', 'MI'),
+        ('Minnesota', 'MN'),
+        ('Mississippi', 'MS'),
+        ('Missouri', 'MO'),
+        ('Montana', 'MT'),
+        ('Nebraska', 'NE'),
+        ('Nevada', 'NV'),
+        ('New Hampshire', 'NH'),
+        ('New Jersey', 'NJ'),
+        ('New Mexico', 'NM'),
+        ('New York', 'NY'),
+        ('North Carolina', 'NC'),
+        ('North Dakota', 'ND'),
+        ('Ohio', 'OH'),
+        ('Oklahoma', 'OK'),
+        ('Oregon', 'OR'),
+        ('Pennsylvania', 'PA'),
+        ('Rhode Island', 'RI'),
+        ('South Carolina', 'SC'),
+        ('South Dakota', 'SD'),
+        ('Tennessee', 'TN'),
+        ('Texas', 'TX'),
+        ('Utah', 'UT'),
+        ('Vermont', 'VT'),
+        ('Virginia', 'VA'),
+        ('Washington', 'WA'),
+        ('West Virginia', 'WV'),
+        ('Wisconsin', 'WI'),
+        ('Wyoming', 'WY'),
+    )
+    shop_state = models.CharField(choices=STATE_CHOICES, max_length=20, null=False)
+    shop_zipcode = models.IntegerField(null=False)
     service_grand_total = models.DecimalField(max_digits=7, default=0.0, decimal_places=2)
     battery_service = models.BooleanField(null=True, blank=True)
     brakefluid_service = models.BooleanField(null=True, blank=True)
