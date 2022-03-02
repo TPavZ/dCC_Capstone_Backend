@@ -73,7 +73,7 @@ def delete_vehicle(request, vehicle_id):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
-@api_view(['POST', 'GET'])
+""" @api_view(['POST', 'GET'])
 @permission_classes([IsAuthenticated])
 def user_services(request):
     if request.method == 'POST':
@@ -110,4 +110,4 @@ def delete_service(request, service_id):
 
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
     else:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return Response(status=status.HTTP_401_UNAUTHORIZED) """
