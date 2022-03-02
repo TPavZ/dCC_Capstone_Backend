@@ -6,6 +6,7 @@ User = get_user_model()
 
 class Vehicle(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    service_cost = models.DecimalField(max_digits=7, default=0.0, decimal_places=2, blank=True, null=True)
     vin = models.CharField(max_length=17)
     year = models.IntegerField()
     make = models.CharField(max_length=50)
