@@ -11,9 +11,9 @@ class Service(models.Model):
     current_mileage = models.IntegerField()
     service_date = models.DateField(auto_now=False)
     # TODO Somehow be able to connect to the shop work was done at.
-    shop_name = models.CharField(max_length=200, null=False)
-    shop_street = models.CharField(max_length=100, null=False)
-    shop_city = models.CharField(max_length=100, null=False)
+    shop_name = models.CharField(max_length=200, null=True, blank=True)
+    shop_street = models.CharField(max_length=100, null=True, blank=True)
+    shop_city = models.CharField(max_length=100, null=True, blank=True)
     STATE_CHOICES = (
         ('Alabama', 'AL'),
         ('Alaska', 'AK'),
@@ -66,9 +66,9 @@ class Service(models.Model):
         ('Wisconsin', 'WI'),
         ('Wyoming', 'WY'),
     )
-    shop_state = models.CharField(choices=STATE_CHOICES, max_length=20, null=False)
-    shop_zipcode = models.IntegerField(null=False)
-    service_grand_total = models.DecimalField(max_digits=7, default=0.0, decimal_places=2)
+    shop_state = models.CharField(choices=STATE_CHOICES, max_length=20, null=True, blank=True)
+    shop_zipcode = models.IntegerField(null=True, blank=True, default=None)
+    service_grand_total = models.DecimalField(max_digits=7, default=0.00, decimal_places=2)
     battery_service = models.BooleanField(null=True, blank=True)
     brakefluid_service = models.BooleanField(null=True, blank=True)
     brakefront_service = models.BooleanField(null=True, blank=True)

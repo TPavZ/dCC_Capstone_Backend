@@ -14,6 +14,7 @@ from .serializers import CreateServiceSerializer
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
 from django.contrib.auth import get_user_model
+from decimal import Decimal
 User = get_user_model()
 
 # Create your views here.
@@ -51,8 +52,10 @@ def user_services(request):
             serializer.save(user=request.user)
 
             # update vehicle
-            vehicle = Vehicle.objects.get(id=request.data.vehicle)
-            vehicle.service_cost += request.data.service_grand_total
+            vehicleid=serializer.initial_data['vehicle']
+            servicecost=Decimal(serializer.initial_data['service_grand_total'])
+            vehicle = Vehicle.objects.get(id=vehicleid)
+            vehicle.service_cost += servicecost
             vehicle.save()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -78,6 +81,45 @@ def update_service(request, service_id):
 @permission_classes([AllowAny])  # !IsAuthenticated
 def delete_service(request, service_id):
     service = Service.objects.get(id=service_id)
+    vehicle = Vehicle.objects.get(id=service.vehicle_id)
+    cost = Decimal(service.service_grand_total)
+    if request.user.id == Service.user.id:
+        serializer = ServiceSerializer(service, many=False)
+        Service.delete()
+
+        # updates vehicle
+        vehicle.service_cost -= cost
+        vehicle.save()
+
+        return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+    else:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+""" @api_view(['POST', 'GET'])
+@permission_classes([IsAuthenticated])
+def user_services(request):
+    if request.method == 'POST':
+        serializer = CreateServiceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+
+            # update vehicle
+            vehicle = Vehicle.objects.get(id=request.data.vehicle)
+            vehicle.service_cost += request.data.service_grand_total
+            vehicle.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'GET':
+        Services = Service.objects.filter(user_id=request.user.id)
+        serializer = ServiceSerializer(Services, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([AllowAny])  # !IsAuthenticated
+def delete_service(request, service_id):
+    service = Service.objects.get(id=service_id)
     vehicle = Vehicle.objects.get(id=service.vehicle)
     cost = service.service_grand_total
     if request.user.id == Service.user.id:
@@ -91,6 +133,7 @@ def delete_service(request, service_id):
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
     else:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+ """
 
 """ from django.http.response import Http404
 from django.shortcuts import render
