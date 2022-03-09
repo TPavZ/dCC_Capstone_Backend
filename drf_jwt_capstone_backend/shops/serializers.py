@@ -1,4 +1,4 @@
-    #! Shop Serializers
+#! Shop Serializers
 from rest_framework import serializers
 from .models import Shop
 from django.contrib.auth.models import User
