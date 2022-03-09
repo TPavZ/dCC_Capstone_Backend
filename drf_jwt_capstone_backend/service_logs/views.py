@@ -1,9 +1,5 @@
-    #! Service Views
-    # TODO for production change authetications back.
-#from django.http.response import Http404
-#from django.shortcuts import render
+#! Service Views
 from rest_framework import status
-#from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
@@ -27,16 +23,17 @@ def get_all_services(request):
     serializer = ServiceSerializer(services, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_all_services_pervehicle(request, vehicle_id):
-    services = Service.objects.filter(vehicle_id = vehicle_id)
+    services = Service.objects.filter(vehicle_id=vehicle_id)
     serializer = ServiceSerializer(services, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])  
+@permission_classes([IsAuthenticated])
 def get_user(request, user_id):
     user = User.objects.get(id=user_id)
     serializer = UserSerializer(user, many=False)
@@ -52,8 +49,9 @@ def user_services(request):
             serializer.save(user=request.user)
 
             # update vehicle
-            vehicleid=serializer.initial_data['vehicle']
-            servicecost=Decimal(serializer.initial_data['service_grand_total'])
+            vehicleid = serializer.initial_data['vehicle']
+            servicecost = Decimal(
+                serializer.initial_data['service_grand_total'])
             vehicle = Vehicle.objects.get(id=vehicleid)
             vehicle.service_cost += servicecost
             vehicle.save()
@@ -67,7 +65,7 @@ def user_services(request):
 
 
 @api_view(['PUT'])
-@permission_classes([AllowAny])  # !IsAuthenticated
+@permission_classes([IsAuthenticated])
 def update_service(request, service_id):
     service = Service.objects.get(id=service_id)
     serializer = ServiceSerializer(service, data=request.data)
@@ -78,7 +76,7 @@ def update_service(request, service_id):
 
 
 @api_view(['DELETE'])
-@permission_classes([AllowAny])  # !IsAuthenticated
+@permission_classes([IsAuthenticated])
 def delete_service(request, service_id):
     service = Service.objects.get(id=service_id)
     vehicle = Vehicle.objects.get(id=service.vehicle_id)
@@ -94,100 +92,3 @@ def delete_service(request, service_id):
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
     else:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-""" @api_view(['POST', 'GET'])
-@permission_classes([IsAuthenticated])
-def user_services(request):
-    if request.method == 'POST':
-        serializer = CreateServiceSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)
-
-            # update vehicle
-            vehicle = Vehicle.objects.get(id=request.data.vehicle)
-            vehicle.service_cost += request.data.service_grand_total
-            vehicle.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'GET':
-        Services = Service.objects.filter(user_id=request.user.id)
-        serializer = ServiceSerializer(Services, many=True)
-        return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-@permission_classes([AllowAny])  # !IsAuthenticated
-def delete_service(request, service_id):
-    service = Service.objects.get(id=service_id)
-    vehicle = Vehicle.objects.get(id=service.vehicle)
-    cost = service.service_grand_total
-    if request.user.id == Service.user.id:
-        serializer = ServiceSerializer(service, many=False)
-        Service.delete()
-
-        # updates vehicle
-        vehicle.service_cost -= cost
-        vehicle.save()
-
-        return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
-    else:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
- """
-
-""" from django.http.response import Http404
-from django.shortcuts import render
-from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.decorators import api_view, permission_classes
-from .models import Service
-from .serializers import ServiceSerializer
-from django.contrib.auth import get_user_model   
-User=get_user_model() """
-
-
-""" class ServiceList(APIView):
-
-    permission_classes = [AllowAny] #! Change later
-    
-    def get(self, request):
-        service = Service.objects.all()
-        serializer = ServiceSerializer(service, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = ServiceSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class ShopDetails(APIView):
-
-    permission_classes = [AllowAny] #! Change later
-
-    def get_object(self, pk):
-        try:
-            return Service.objects.get(pk=pk)
-        except Service.DoesNotExist:
-            raise Http404            
-
-    def get(self, request, pk):
-        service = self.get_object(pk)
-        serializer = ServiceSerializer(service)
-        return Response(serializer.data)
-        
-    def put(self, request, pk):
-        service = self.get_object(pk)
-        serializer = ServiceSerializer(service, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        service = self.get_object(pk)
-        service.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT) """
